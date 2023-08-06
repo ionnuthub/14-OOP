@@ -354,111 +354,414 @@
 
 // ////✅❗ Imheritance Between "Classes":
 
-//❗/ 1. Constructor Functions
+// //❗/ 1. Constructor Functions
 
-const Persons = function (firstName, birthYear) {
-  this.firstName = firstName;
-  this.birthYear = birthYear;
-};
+// const Persons = function (firstName, birthYear) {
+//   this.firstName = firstName;
+//   this.birthYear = birthYear;
+// };
 
-Persons.prototype.calcAge = function () {
-  console.log(2023 - this.birthYear);
-};
+// Persons.prototype.calcAge = function () {
+//   console.log(2023 - this.birthYear);
+// };
 
-//Building a constructor Function for the Student:
-// 1. We want usualy the child class to have the same functionality as the  Parent class but with some additional fuctionality.
-// Ussualy we pass in the same arguments but also some additional ones
+// //Building a constructor Function for the Student:
+// // 1. We want usualy the child class to have the same functionality as the  Parent class but with some additional fuctionality.
+// // Ussualy we pass in the same arguments but also some additional ones
 
-const Student = function (firstName, birthYear, course) {
-  // It's never a good ideea to have duplicate code
-  // if the implementation of person change in the future the change it will not be reflected in the student
-  // this.firstName = firstName;
-  // this.birthYear = birthYear;
-  //✅ To pass the properties of the person:
-  // We call Persons with call() method: We want the this keyword inside of Persons function to be the this keyword inside of Student  function
-  // In the begining the this keyword gone be the empty obj that is being created by the new operator and its on that obj where we want to set the firstName and birthYear property
-  Persons.call(this, firstName, birthYear);
-  this.course = course;
-};
+// const Student = function (firstName, birthYear, course) {
+//   // It's never a good ideea to have duplicate code
+//   // if the implementation of person change in the future the change it will not be reflected in the student
+//   // this.firstName = firstName;
+//   // this.birthYear = birthYear;
+//   //✅ To pass the properties of the person:
+//   // We call Persons with call() method: We want the this keyword inside of Persons function to be the this keyword inside of Student  function
+//   // In the begining the this keyword gone be the empty obj that is being created by the new operator and its on that obj where we want to set the firstName and birthYear property
+//   Persons.call(this, firstName, birthYear);
+//   this.course = course;
+// };
 
-//✅❗ LINKING PROTOTYPES:
-//❗ To have access to the methods of parent (Persons) we have to link the Persons.prototype with Student.Prototype . We have to create manualy with Object.create()
-//❗To link these two prototype objects we are gone use Object.create() . Because defining prototypes manually is exactly what Object.create() does
-//❗We have to create this connection here before we add any more methods to the prototype object of student. Because Object.create() will return an empty object
+// //✅❗ LINKING PROTOTYPES:
+// //❗ To have access to the methods of parent (Persons) we have to link the Persons.prototype with Student.Prototype . We have to create manualy with Object.create()
+// //❗To link these two prototype objects we are gone use Object.create() . Because defining prototypes manually is exactly what Object.create() does
+// //❗We have to create this connection here before we add any more methods to the prototype object of student. Because Object.create() will return an empty object
 
-Student.prototype = Object.create(Persons.prototype); //Now the Student.prototype it's now an object that inherits from Person.prototype
+// Student.prototype = Object.create(Persons.prototype); //Now the Student.prototype it's now an object that inherits from Person.prototype
 
-// ❗We create a method called introduce on student prototype
-Student.prototype.introduce = function () {
-  console.log(`My name is ${this.firstName} and I study ${this.course}`);
-};
+// // ❗We create a method called introduce on student prototype
+// Student.prototype.introduce = function () {
+//   console.log(`My name is ${this.firstName} and I study ${this.course}`);
+// };
 
-const mike = new Student('Mike', 1986, 'Computer Science');
-mike.introduce();
-mike.calcAge();
-console.log(mike.__proto__);
-console.log(mike.__proto__.__proto__);
+// const mike = new Student('Mike', 1986, 'Computer Science');
+// mike.introduce();
+// mike.calcAge();
+// console.log(mike.__proto__);
+// console.log(mike.__proto__.__proto__);
 
-console.log(mike instanceof Student); // print true
-console.log(mike instanceof Persons); // print true when we linked and false when we don't linked
+// console.log(mike instanceof Student); // print true
+// console.log(mike instanceof Persons); // print true when we linked and false when we don't linked
 
-//❗To fix the prototype:
-Student.prototype.constructor = Student;
+// //❗To fix the prototype:
+// Student.prototype.constructor = Student;
 
-console.dir(Student.prototype.constructor); // to check constructor properties
-console.log(mike.__proto__);
+// console.dir(Student.prototype.constructor); // to check constructor properties
+// console.log(mike.__proto__);
 
-//❗Chalenge
-const Car = function (type, speed) {
-  this.type = type;
-  this.speed = speed;
-};
+// //❗Chalenge
+// const Car = function (type, speed) {
+//   this.type = type;
+//   this.speed = speed;
+// };
 
-Car.prototype.accelerate = function () {
-  this.speed += 25;
-  console.log(`${this.type} running with ${this.speed}km/h`);
-};
+// Car.prototype.accelerate = function () {
+//   this.speed += 25;
+//   console.log(`${this.type} running with ${this.speed}km/h`);
+// };
 
-Car.prototype.brake = function () {
-  this.speed -= 10;
-  console.log(`${this.type} running with ${this.speed}km/h`);
-};
+// Car.prototype.brake = function () {
+//   this.speed -= 10;
+//   console.log(`${this.type} running with ${this.speed}km/h`);
+// };
 
-//Creating the child
-const Ev = function (type, speed, charge) {
-  Car.call(this, type, speed);
-  this.charge = charge;
-};
+// //Creating the child
+// const Ev = function (type, speed, charge) {
+//   Car.call(this, type, speed);
+//   this.charge = charge;
+// };
 
-// we link the prototype
-Ev.prototype = Object.create(Car.prototype);
+// // we link the prototype
+// Ev.prototype = Object.create(Car.prototype);
 
-Ev.prototype.chargeBattery = function (chargeTo) {
-  this.charge = chargeTo;
-};
+// Ev.prototype.chargeBattery = function (chargeTo) {
+//   this.charge = chargeTo;
+// };
 
-Ev.prototype.accelerate = function () {
-  if ((this.speed += 20)) {
-    this.charge--;
+// Ev.prototype.accelerate = function () {
+//   if ((this.speed += 20)) {
+//     this.charge--;
+//   }
+
+//   console.log(
+//     `${this.type} going at ${this.speed} with a charge of ${this.charge}%`
+//   );
+// };
+
+// const tesla = new Ev('Tesla', 120, 22);
+// console.log(tesla);
+
+// tesla.accelerate();
+// tesla.brake();
+// tesla.chargeBattery(90);
+// tesla.accelerate();
+// tesla.accelerate();
+
+// //❗✅ Inheritance ES6 Classes
+
+// class PersonCl {
+//   constructor(fullName, birthYear) {
+//     this.fullName = fullName;
+//     this.birthYear = birthYear;
+//   }
+
+//   //Instance Methods
+//   calcAge() {
+//     console.log(2023 - this.birthYear);
+//   }
+
+//   greet() {
+//     console.log(`Hey ${this.fullName}`);
+//   }
+
+//   get age() {
+//     return 2023 - this.birthYear;
+//   }
+
+//   set fullName(name) {
+//     if (name.includes(' ')) this._fullName = name;
+//     else alert(`${name} is not a full name!`);
+//   }
+
+//   get fullName() {
+//     return this._fullName;
+//   }
+
+//   // Static Method
+//   static hey() {
+//     console.log('HEY There 🤗');
+//   }
+// }
+
+// //❗ To Implement Inheritance between ES6 Classes we neeed 2 Ingredients:
+// // 1. Extends keywords
+// // 2. Super Function
+
+// // To make the student class inherit from the person class we need extends
+// // The extends keyword will link the prototypes behind the scenes
+// // Then we need the constructor wich will recive the same arguments like parent class with some addtitional ones if we need
+// // In the constructor we need to call the super() which is the constructor function of the parent class, and we pass in the arguments for the constructor of the parent class because that are the parameters specified in the parent constructor
+// // The call to the super function is responsible for creating the this keyword in this subclass
+// // If we dont need any new properties we don't need the constructor and the super in the child class
+// //❗This mechanism of inheritance can be very problematic in real world When we are designing software
+// class Student extends PersonCl {
+//   constructor(fullName, birthYear, course) {
+//     //Always needs to happen first
+//     super(fullName, birthYear);
+//     this.course = course;
+//   }
+//   introduce() {
+//     console.log(
+//       ` My name is ${this.fullName} I am ${this.age} and I study ${this.course}`
+//     );
+//   }
+//   // Overwritting the method in the parent class
+//   //This method it's shadowing the one from the parent class
+//   calcAge() {
+//     console.log(
+//       ` Hey I'm ${this.fullName} and I'm ${
+//         2023 - this.birthYear
+//       } years old , but as a student i feel like ${2023 - this.birthYear - 20}`
+//     );
+//   }
+// }
+
+// const marhta = new Student('Marta Smart', 1981, 'Computer Science');
+// marhta.introduce();
+// marhta.calcAge();
+
+// ///❗Inheritance Between Classes Object.create()
+
+// const PersonProto = {
+//   calcAge() {
+//     console.log(2023 - this.birthYear);
+//   },
+
+//   init(firstName, birthYear) {
+//     this.firstName = firstName;
+//     this.birthYear = birthYear;
+//   },
+// };
+
+// const steven = Object.create(PersonProto);
+
+// //❗ Linking obj prototype , child StudentProto with parent PersonProto
+// const StudentProto = Object.create(PersonProto);
+
+// //Creating Methods on the StudentProto prototype
+// StudentProto.init = function (firstName, birthYear, course) {
+//   PersonProto.init.call(this, firstName, birthYear); // we want to set the this keyword on the init method
+//   this.course = course;
+// };
+
+// StudentProto.introduce = function () {
+//   console.log(
+//     `Hey, My Name is ${this.firstName} I'm ${
+//       2023 - this.birthYear
+//     } years old and I'm study ${this.course}`
+//   );
+// };
+// const jay = Object.create(StudentProto);
+// jay.init('Jay', 1981, 'Computer Science');
+// jay.introduce('Jay', 1981, 'Computer Science');
+
+// ❗ES6 Classes
+// In Bankist App
+//We can create more properties on any instance and properties that are not based on any inputs.
+// We can execute any code in the constructor that we want
+// The methods are the interface to our objects. They are the API
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    // Protected property
+    this._pin = pin;
+    this._movements = [];
+    this.locale = navigator.language;
+    console.log(`Thanks for openig an account ${owner}`);
+  }
+  // ❗Public Interface API
+  getMovements() {
+    // If we wanted to give access to the movements array from outside we would have to implement a public method for that
+    return this._movements;
+  }
+  deposit(val) {
+    this._movements.push(val);
+  }
+  withdraw(val) {
+    //Calling other methods inside of other method
+    this.deposit(-val);
+  }
+  _aproveLoan(val) {
+    return true;
+  }
+  requestLoan(val) {
+    if (this._aproveLoan(val)) {
+      // if true
+      this.deposit(val); // calling the deposit() method inside of another method
+      console.log(' Loan Aproved');
+    }
+  }
+}
+
+const acc1 = new Account('Ionut', 'EUR', 1111);
+//❗ Not a good ideea
+//Instead to interact with properties like this it's a lot better to create methods that interact with these properties// Very true for important properties such as movements// To avoid bugs in the future as application grows
+//
+// acc1.movements.push(300);
+// acc1.movements.push(-200);
+console.log(acc1);
+
+//After creating the methods
+
+acc1.deposit(500);
+acc1.withdraw(150);
+acc1.requestLoan(1000);
+//acc1.aproveLoan(1000); // in the real world we should not be able to acces this method
+//❗ We need data encapsulation and data privacy❗
+
+console.log(acc1);
+// The withdraw() method abstract the fact it is a negative movement
+
+//❗ Offcourse we can interact with the movements array directly and pottentialy making mistakes
+// Same can go for the Pin from outside of the account
+//It should not be accesible outside of the class
+// This Is a very BIG Concern
+// The same Goes for Methods
+console.log(acc1.pin);
+
+//❗✅ Encapsulation: Protected Properties and Methods
+
+// ❗Encapsulation: To keep some properties and methods private inside the class
+//❗ They are not accessible from outside of the class.
+// ❗This is essential to do
+
+//🖍️❗  The rest of the methods are bassically exposed as a public interface , which we can call also API
+
+//❗❗Reasons:
+//❗❗There are 2 reasons for what we need the data privacy and encapsulation:
+// 1. To prevent code from outside of a class to accidentally manipulate our data inside the class
+// 2. When we expose only a small interface (a small API) consisting only of a few public methods , then we can change all the other internal methods with more confidence. Because we can be sure that external code does not rely on these private methods.
+// And our code will not break when we do internal changes
+
+//❗❗ JS Classes do not yet support real data privacy and encapsulation
+
+/////////
+//❗❗ Fake Encapsulation by using a convention::
+// 1. We want to protect the movements array :  Critical data
+// We add an underscore in front of the _movements // We have to change it everywhere
+// This change does not make the property truly private because this is just a convention (what developers agree to use)
+// But since it's not truly private we call this protected
+
+//Now if we want to get the movements outside we can still do this
+// But everyone it will know this is not supposed to be touched outside of the class (Wrong)
+acc1._movements.push(300);
+acc1._movements.push(-200);
+
+// If we wanted to give access to the movements array from outside we would have to implement a public method for that
+// Everyone now can acces the movements but they can't overwrite them
+console.log(acc1.getMovements());
+
+// We can protect the pin
+// We can protect the approveLoan. This method should not be part of public  API  but all others should be
+//This is how we protect fields from unwanted Access
+
+///❗✅ Encapsulation: Private Class Fields And Methods
+//Are part of a bigger propossal for improving and changing Js Classes which is called Class Fields
+// It is part of 2023 ECMAScript
+
+// 1. Public Fields
+// 2. Private Fields
+// 3. Public Methods
+// 4. Private Methods
+// 5. There is also the static version for all 4 . Usually we use this for helper functions. Because this static methods will not be available on all the instances but only on the class itself
+
+// 1.❗ Public Fildes
+// We can think of a field as a property that will be on all instances. We can call it public instance field
+
+// In our example the 2 fields can be the movements and the locale. Because these are the properties that are gonna be on all the objects that we create with this class.
+// Because we do not pass any of the values here into the constructor
+// the array and the language it will be set on all the instances
+// We adddem in the public fields outside of the constructor
+// we need to add a semicolon after
+// The public Fields are gonna be present on all the instances that we are creating trough the class. They are not on the prototype
+// All the methods that we add they will always be added to the prototype. The fields are on the instances
+// The Public Fields they are also refereceable via the this keyword
+
+// 2. ❗Private Fields
+// Properties are really truly not accessible from the outside.
+// We make  the _movements array private with the # symbol ( # it's the syntax that makes the field private in this new class proposal)
+//  We can not define a field in the constructor//
+// The fields has to be outside of any method
+// We create the field for  private #pin out and we don't set it to anything// In the beggining it will be set to undefined and in the constructor we redifine that value
+// In the constructor we set the #privatePin to the this keyword and set it to the value that we received.
+
+class Accounts {
+  // 1. Public Fields (they will be on instances)
+  locale = navigator.language;
+  //_movements = [];// convention
+
+  // 2. Private Fields (they will be available on instances not on prototype)
+  #privateMovements = [];
+  #privatePin; // these class fields are like any other property
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    // Protected property
+    this.#privatePin = pin;
+    // this._movements = [];
+    //this.locale = navigator.language;
+    console.log(`Thanks for openig an account ${owner}`);
   }
 
-  console.log(
-    `${this.type} going at ${this.speed} with a charge of ${this.charge}%`
-  );
-};
+  // 3. Public Methods
+  // ❗Public Interface API
 
-const tesla = new Ev('Tesla', 120, 22);
-console.log(tesla);
+  getMovements() {
+    // If we wanted to give access to the movements array from outside we would have to implement a public method for that
+    return this.#privateMovements;
+  }
 
-tesla.accelerate();
-tesla.brake();
-tesla.chargeBattery(90);
-tesla.accelerate();
-tesla.accelerate();
-tesla.brake();
-tesla.accelerate();
-tesla.accelerate();
-tesla.brake();
-tesla.brake();
-tesla.accelerate();
-tesla.accelerate();
+  deposit(val) {
+    this.#privateMovements.push(val);
+  }
+
+  withdraw(val) {
+    //Calling other methods inside of other method
+    this.deposit(-val);
+  }
+
+  requestLoan(val) {
+    if (this.#privateAproveLoan(val)) {
+      // if true
+      this.deposit(val); // calling the deposit() method inside of another method
+      console.log(' Loan Aproved');
+    }
+  }
+
+  static helper() {
+    console.log('Helper');
+  }
+  // 4. Private Methods
+  #privateAproveLoan(val) {
+    return true;
+  }
+}
+
+const acc2 = new Accounts('Vlad', 'EUR', 2222);
+acc2.deposit(700);
+console.log(acc2);
+// console.log(acc2.#privateMovements); // We cannot access the variable outside now
+//console.log(acc2.#privatePin);
+acc2.locale = navigator.languages;
+console.log(acc2);
+console.log(acc2.getMovements());
+///❗4. Private Methods
+// are very useful to hide the implementation details from the oustide
+acc2.requestLoan(1000);
+console.log(acc2.getMovements());
+//console.log(acc2.#privateAproveLoan(10)); // not accesible
+console.log(acc2);
+
+// The static works just
+Accounts.helper();
